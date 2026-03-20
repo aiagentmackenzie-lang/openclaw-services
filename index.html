@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenClaw Services — Your AI Workforce, Built in a Day</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --color-bg: #0A0A0A;
+      --color-bg-elevated: #111111;
+      --color-text: #F5F5F5;
+      --color-text-muted: rgba(245, 245, 245, 0.6);
+      --color-accent: #E53935;
+      --color-accent-glow: rgba(229, 57, 53, 0.3);
+      --font-display: 'JetBrains Mono', monospace;
+      --font-body: 'Inter', sans-serif;
+      --radius: 2px;
+      --spacing-section: 15vh;
+      --max-width: 1200px;
+      --transition-base: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    html {
+      scroll-behavior: auto;
+    }
+    
+    body {
+      font-family: var(--font-body);
+      background: var(--color-bg);
+      color: var(--color-text);
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+    
+    /* Navigation */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 1.5rem 5vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      background: rgba(10, 10, 10, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(229, 57, 53, 0.1);
+    }
+    
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      color: var(--color-text);
+    }
+    
+    .nav-logo span {
+      color: var(--color-accent);
+    }
+    
+    .nav-logo-img {
+      width: 24px;
+      height: 24px;
+      margin-right: 0.5rem;
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+    }
+    
+    .nav-links a {
+      color: var(--color-text-muted);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: color var(--transition-base);
+    }
+    
+    .nav-links a:hover {
+      color: var(--color-accent);
+    }
+    
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      position: relative;
+      padding: 0 10vw;
+      background: 
+        radial-gradient(ellipse at 20% 50%, rgba(229, 57, 53, 0.08) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(229, 57, 53, 0.05) 0%, transparent 40%);
+    }
+    
+    .hero-label {
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: 2rem;
+      opacity: 0;
+    }
+    
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 8vw, 6rem);
+      font-weight: 500;
+      line-height: 1.1;
+      max-width: 900px;
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+    
+    .hero-title .word {
+      display: inline-block;
+      transform: translateY(120%) rotate(3deg);
+      opacity: 0;
+    }
+    
+    .hero-subtitle {
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      font-weight: 300;
+      color: var(--color-text-muted);
+      max-width: 600px;
+      margin-bottom: 3rem;
+      line-height: 1.7;
+      opacity: 0;
+    }
+    
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      opacity: 0;
+    }
+    
+    .btn-primary {
+      padding: 1rem 2rem;
+      background: var(--color-accent);
+      color: var(--color-text);
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      transition: all var(--transition-base);
+    }
+    
+    .btn-primary:hover {
+      background: #ff5252;
+      transform: translateY(-2px);
+      box-shadow: 0 10px 40px var(--color-accent-glow);
+    }
+    
+    .btn-secondary {
+      padding: 1rem 2rem;
+      background: transparent;
+      color: var(--color-text);
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: 1px solid rgba(245, 245, 245, 0.2);
+      cursor: pointer;
+      transition: all var(--transition-base);
+    }
+    
+    .btn-secondary:hover {
+      border-color: var(--color-accent);
+      color: var(--color-accent);
+    }
+    
+    /* Pinned Services Section */
+    .services-pin {
+      position: relative;
+    }
+    
+    .services-panel {
+      height: 100vh;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 10vw;
+      position: relative;
+      will-change: transform;
+    }
+    
+    .services-panel:nth-child(1) { background: var(--color-bg); z-index: 1; }
+    .services-panel:nth-child(2) { background: var(--color-bg-elevated); z-index: 2; }
+    
+    .panel-label {
+      font-family: var(--font-display);
+      font-size: 0.7rem;
+      font-weight: 400;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      margin-bottom: 1rem;
+    }
+    
+    .panel-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 500;
+      line-height: 1.2;
+      max-width: 800px;
+      margin-bottom: 2rem;
+    }
+    
+    .panel-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      max-width: 1200px;
+    }
+    
+    .service-card-alt {
+      padding: 2rem 0;
+      border-top: 1px solid rgba(229, 57, 53, 0.2);
+    }
+    
+    .service-number {
+      font-family: var(--font-display);
+      font-size: 0.7rem;
+      color: var(--color-accent);
+      letter-spacing: 0.2em;
+      margin-bottom: 1rem;
+    }
+    
+    .service-title-alt {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+    
+    .service-desc-alt {
+      font-size: 0.9rem;
+      color: var(--color-text-muted);
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+    
+    .service-features-alt {
+      list-style: none;
+    }
+    
+    .service-features-alt li {
+      font-size: 0.8rem;
+      color: var(--color-text-muted);
+      padding: 0.4rem 0;
+      padding-left: 1.25rem;
+      position: relative;
+    }
+    
+    .service-features-alt li::before {
+      content: '→';
+      position: absolute;
+      left: 0;
+      color: var(--color-accent);
+    }
+    
+    /* Horizontal Process Section */
+    .process-section {
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+      background: var(--color-bg);
+    }
+    
+    .process-header {
+      position: absolute;
+      top: 10vh;
+      left: 10vw;
+      z-index: 10;
+    }
+    
+    .process-header .panel-label {
+      margin-bottom: 0.5rem;
+    }
+    
+    .process-header .panel-title {
+      font-size: clamp(1.5rem, 3vw, 2rem);
+    }
+    
+    .horizontal-track {
+      display: flex;
+      width: max-content;
+      height: 100%;
+      align-items: center;
+      padding: 0 10vw;
+      padding-top: 20vh;
+    }
+    
+    .process-card {
+      width: 60vw;
+      max-width: 700px;
+      height: 60vh;
+      flex-shrink: 0;
+      margin-right: 5vw;
+      padding: 3rem;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    
+    .step-number-large {
+      font-family: var(--font-display);
+      font-size: clamp(4rem, 10vw, 6rem);
+      font-weight: 300;
+      color: var(--color-accent);
+      opacity: 0.2;
+      margin-bottom: 1rem;
+    }
+    
+    .step-title-alt {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+    }
+    
+    .step-desc-alt {
+      font-size: 1rem;
+      color: var(--color-text-muted);
+      line-height: 1.7;
+    }
+    
+    /* Pricing Section */
+    .pricing-section {
+      padding: var(--spacing-section) 10vw;
+      background: var(--color-bg-elevated);
+    }
+    
+    .pricing-header {
+      margin-bottom: 4rem;
+    }
+    
+    .pricing-header .panel-label {
+      margin-bottom: 0.5rem;
+    }
+    
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    
+    .pricing-card {
+      padding: 2.5rem;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      position: relative;
+      clip-path: inset(0 0 0 0);
+      transition: clip-path 0.6s var(--transition-base);
+    }
+    
+    .pricing-card.revealed {
+      clip-path: inset(0 0 0 0);
+    }
+    
+    .pricing-card.featured {
+      border-color: var(--color-accent);
+      background: rgba(229, 57, 53, 0.03);
+    }
+    
+    .pricing-card.featured::before {
+      content: 'POPULAR';
+      position: absolute;
+      top: -1px;
+      right: 2rem;
+      background: var(--color-accent);
+      color: var(--color-text);
+      font-family: var(--font-display);
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      padding: 0.5rem 1rem;
+    }
+    
+    .pricing-name {
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      margin-bottom: 1rem;
+    }
+    
+    .pricing-price {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+    
+    .pricing-price span {
+      font-size: 1rem;
+      color: var(--color-text-muted);
+    }
+    
+    .pricing-desc {
+      font-size: 0.9rem;
+      color: var(--color-text-muted);
+      margin-bottom: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .pricing-features {
+      list-style: none;
+      margin-bottom: 2rem;
+    }
+    
+    .pricing-features li {
+      font-size: 0.85rem;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    }
+    
+    /* CTA Section */
+    .cta-section {
+      min-height: 60vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: var(--spacing-section) 10vw;
+      text-align: center;
+      background: 
+        radial-gradient(ellipse at 50% 100%, rgba(229, 57, 53, 0.1) 0%, transparent 50%);
+    }
+    
+    .cta-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+    }
+    
+    .cta-subtitle {
+      font-size: 1.1rem;
+      color: var(--color-text-muted);
+      margin-bottom: 3rem;
+      max-width: 500px;
+    }
+    
+    /* Footer */
+    .footer {
+      padding: 3rem 10vw;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .footer-text {
+      font-size: 0.8rem;
+      color: var(--color-text-muted);
+    }
+    
+    /* Mobile */
+    @media (max-width: 768px) {
+      body {
+        cursor: auto;
+      }
+      
+      .cursor-dot {
+        display: none;
+      }
+      
+      .nav-links {
+        display: none;
+      }
+      
+      .hero {
+        padding: 0 5vw;
+      }
+      
+      .panel-content {
+        grid-template-columns: 1fr;
+      }
+      
+      .process-card {
+        width: 85vw;
+        height: auto;
+        min-height: 50vh;
+      }
+      
+      .pricing-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .btn-primary, .btn-secondary {
+        cursor: pointer;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-logo">
+      <svg class="nav-logo-img" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M8 4C5 8 4 14 6 18C7 20 10 20 12 20C10 18 8 14 8 10C8 6 10 4 12 2C10 2 9 3 8 4Z" fill="#E53935"/>
+        <path d="M16 4C19 8 20 14 18 18C17 20 14 20 12 20C14 18 16 14 16 10C16 6 14 4 12 2C14 2 15 3 16 4Z" fill="#E53935"/>
+        <circle cx="12" cy="12" r="2" fill="#0A0A0A"/>
+      </svg>
+      OPEN<span>CLAW</span>
+    </div>
+    <div class="nav-links">
+      <a href="#services" data-cursor-grow>Services</a>
+      <a href="#process" data-cursor-grow>Process</a>
+      <a href="#pricing" data-cursor-grow>Pricing</a>
+      <a href="#contact" data-cursor-grow>Contact</a>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <p class="hero-label">OpenClaw Services</p>
+    <h1 class="hero-title" id="scramble-text">Your AI Workforce, Built in a Day</h1>
+    <p class="hero-subtitle">From installation to full automation. I set up OpenClaw on your machine and build custom AI skills that eliminate your busywork.</p>
+    <div class="hero-cta">
+      <button class="btn-primary" data-cursor-grow>Start Your Setup</button>
+      <button class="btn-secondary" data-cursor-grow>View Services</button>
+    </div>
+  </section>
+
+  <!-- Pinned Services Section -->
+  <section class="services-pin" id="services">
+    <div class="services-panel panel-1">
+      <div class="panel-header">
+        <p class="panel-label">What I Do</p>
+        <h2 class="panel-title">Two ways to eliminate your busywork</h2>
+      </div>
+      <div class="panel-content">
+        <div class="service-card-alt">
+          <p class="service-number">01 / SETUP</p>
+          <h3 class="service-title-alt">OpenClaw Installation</h3>
+          <p class="service-desc-alt">Get a fully configured OpenClaw environment running locally on your machine. Secure, private, and ready to automate.</p>
+          <ul class="service-features-alt">
+            <li>Complete local installation</li>
+            <li>Security hardening</li>
+            <li>Telegram integration</li>
+            <li>Custom configuration</li>
+            <li>2-hour delivery</li>
+          </ul>
+        </div>
+        <div class="service-card-alt">
+          <p class="service-number">02 / AUTOMATION</p>
+          <h3 class="service-title-alt">Custom AI Skills</h3>
+          <p class="service-desc-alt">Bespoke automation skills tailored to your specific workflows. From email processing to data analysis.</p>
+          <ul class="service-features-alt">
+            <li>Workflow analysis</li>
+            <li>Custom skill development</li>
+            <li>Integration with your tools</li>
+            <li>Testing & refinement</li>
+            <li>Documentation</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Horizontal Process Section -->
+  <section class="process-section" id="process">
+    <div class="process-header">
+      <p class="panel-label">How It Works</p>
+      <h2 class="panel-title">From zero to automated</h2>
+    </div>
+    
+    <div class="horizontal-track">
+      <div class="process-card">
+        <span class="step-number-large">01</span>
+        <h3 class="step-title-alt">Discovery</h3>
+        <p class="step-desc-alt">We discuss your workflows and identify automation opportunities. I understand what you do repeatedly.</p>
+      </div>
+      
+      <div class="process-card">
+        <span class="step-number-large">02</span>
+        <h3 class="step-title-alt">Build</h3>
+        <p class="step-desc-alt">I install OpenClaw and develop your custom skills. Everything is built and tested on my end first.</p>
+      </div>
+      
+      <div class="process-card">
+        <span class="step-number-large">03</span>
+        <h3 class="step-title-alt">Deploy</h3>
+        <p class="step-desc-alt">I deliver your fully working system with documentation. You start saving hours immediately.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <section class="pricing-section" id="pricing">
+    <div class="pricing-header">
+      <p class="panel-label">Investment</p>
+      <h2 class="panel-title">Transparent pricing</h2>
+    </div>
+    
+    <div class="pricing-grid">
+      <div class="pricing-card" data-cursor-grow>
+        <p class="pricing-name">Setup Only</p>
+        <p class="pricing-price">$350<span> one-time</span></p>
+        <p class="pricing-desc">Perfect if you want to build your own skills later.</p>
+        <ul class="pricing-features">
+          <li>Complete OpenClaw installation</li>
+          <li>Security configuration</li>
+          <li>Telegram integration</li>
+          <li>Basic documentation</li>
+          <li>30-day support</li>
+        </ul>
+        <button class="btn-secondary" data-cursor-grow>Get Started</button>
+      </div>
+      
+      <div class="pricing-card featured" data-cursor-grow>
+        <p class="pricing-name">Setup + Skill</p>
+        <p class="pricing-price">$750<span> one-time</span></p>
+        <p class="pricing-desc">Most popular. Get running with your first automation.</p>
+        <ul class="pricing-features">
+          <li>Everything in Setup</li>
+          <li>1 custom AI skill</li>
+          <li>Workflow analysis</li>
+          <li>Full documentation</li>
+          <li>60-day support</li>
+        </ul>
+        <button class="btn-primary" data-cursor-grow>Get Started</button>
+      </div>
+      
+      <div class="pricing-card" data-cursor-grow>
+        <p class="pricing-name">Enterprise</p>
+        <p class="pricing-price">Custom<span> pricing</span></p>
+        <p class="pricing-desc">Multiple skills, complex integrations, ongoing support.</p>
+        <ul class="pricing-features">
+          <li>Everything in Setup + Skill</li>
+          <li>Multiple custom skills</li>
+          <li>API integrations</li>
+          <li>Priority support</li>
+          <li>Monthly retainer available</li>
+        </ul>
+        <button class="btn-secondary" data-cursor-grow>Contact Me</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section" id="contact">
+    <h2 class="cta-title">Ready to automate?</h2>
+    <p class="cta-subtitle">Let's discuss your workflows and build your AI workforce.</p>
+    <button class="btn-primary" data-cursor-grow>Book a Free Call</button>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p class="footer-text">© 2024 OpenClaw Services</p>
+    <p class="footer-text">Built with precision</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/split-type@0.3.4/umd/index.min.js"></script>
+  
+  <script>
+    const isMobile = window.innerWidth < 768;
+    
+    // Initialize Lenis
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      smoothWheel: true
+    });
+    
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time) => lenis.raf(time * 1000));
+    gsap.ticker.lagSmoothing(0);
+    gsap.registerPlugin(ScrollTrigger);
+    
+    // Text Scramble Effect
+    function scrambleText(el, finalText, duration = 1800) {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$%';
+      let start = null;
+      
+      function step(timestamp) {
+        if (!start) start = timestamp;
+        const progress = Math.min((timestamp - start) / duration, 1);
+        
+        el.textContent = finalText.split('').map((char, i) => {
+          if (char === ' ') return ' ';
+          if (i < Math.floor(progress * finalText.length)) return char;
+          return chars[Math.floor(Math.random() * chars.length)];
+        }).join('');
+        
+        if (progress < 1) requestAnimationFrame(step);
+      }
+      
+      requestAnimationFrame(step);
+    }
+    
+    // Hero Animations
+    window.addEventListener('load', () => {
+      // Scramble hero title
+      const heroTitle = document.getElementById('scramble-text');
+      const finalText = heroTitle.textContent;
+      scrambleText(heroTitle, finalText, 2000);
+      
+      // Fade in other elements
+      gsap.to('.hero-label', { opacity: 1, duration: 0.8, delay: 0.2 });
+      gsap.to('.hero-subtitle', { y: 0, opacity: 1, duration: 0.8, delay: 2.2 });
+      gsap.to('.hero-cta', { y: 0, opacity: 1, duration: 0.8, delay: 2.4 });
+    });
+    
+    // Pinned Services Section
+    if (!isMobile) {
+      const panel = document.querySelector('.panel-1');
+      
+      ScrollTrigger.create({
+        trigger: '.services-pin',
+        start: 'top top',
+        end: '+=100%',
+        pin: panel,
+        pinSpacing: true
+      });
+      
+      // Animate panel content on scroll
+      gsap.fromTo('.panel-1 .service-card-alt', 
+        { y: 60, opacity: 0 },
+        {
+          y: 0,
+          opacity: 1,
+          stagger: 0.2,
+          scrollTrigger: {
+            trigger: '.services-pin',
+            start: 'top 60%',
+            end: 'top 20%',
+            scrub: 1
+          }
+        }
+      );
+    }
+    
+    // Horizontal Scroll Process Section
+    if (!isMobile) {
+      const track = document.querySelector('.horizontal-track');
+      const totalScroll = track.scrollWidth - window.innerWidth;
+      
+      gsap.to(track, {
+        x: -totalScroll,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: '.process-section',
+          start: 'top top',
+          end: () => `+=${totalScroll}`,
+          scrub: 1,
+          pin: true,
+          anticipatePin: 1
+        }
+      });
+      
+      // Animate cards as they enter
+      document.querySelectorAll('.process-card').forEach((card, i) => {
+        gsap.fromTo(card,
+          { y: 50, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 0.6,
+            delay: i * 0.1,
+            scrollTrigger: {
+              trigger: card,
+              containerAnimation: gsap.to(track, { x: -totalScroll }),
+              start: 'left 80%',
+              toggleActions: 'play none none reverse'
+            }
+          }
+        );
+      });
+    }
+    
+    // Pricing Cards Clip-Path Reveal
+    document.querySelectorAll('.pricing-card').forEach((card, i) => {
+      gsap.fromTo(card,
+        { clipPath: 'inset(100% 0% 0% 0%)' },
+        {
+          clipPath: 'inset(0% 0% 0% 0%)',
+          duration: 0.8,
+          delay: i * 0.15,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: card,
+            start: 'top 85%',
+            toggleActions: 'play none none reverse'
+          }
+        }
+      );
+    });
+    
+    // CTA Section Animation
+    gsap.fromTo('.cta-section > *',
+      { y: 60, opacity: 0 },
+      {
+        y: 0,
+        opacity: 1,
+        stagger: 0.2,
+        scrollTrigger: {
+          trigger: '.cta-section',
+          start: 'top 70%',
+          toggleActions: 'play none none reverse'
+        }
+      }
+    );
+  </script>
+</body>
+</html>
