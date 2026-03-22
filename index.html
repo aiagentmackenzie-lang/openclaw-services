@@ -486,6 +486,29 @@
       color: var(--color-text-muted);
     }
     
+    /* Custom Cursor */
+    /* Hide default cursor on desktop */
+    @media (pointer: fine) {
+      * {
+        cursor: none !important;
+      }
+    }
+    
+    .cursor-dot {
+      width: 12px;
+      height: 12px;
+      background: #FFFFFF;
+      border-radius: 50%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 9999;
+      mix-blend-mode: difference;
+      transform: translate(-50%, -50%);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    
     /* Mobile */
     @media (max-width: 768px) {
       body {
@@ -493,7 +516,7 @@
       }
       
       .cursor-dot {
-        display: none;
+        display: none !important;
       }
       
       .nav-links {
@@ -525,6 +548,9 @@
   </style>
 </head>
 <body>
+  <!-- Custom Cursor -->
+  <div class="cursor-dot" id="cursor"></div>
+  
   <!-- Navigation -->
   <nav class="nav">
     <div class="nav-logo">
@@ -674,12 +700,12 @@
   <section class="cta-section" id="contact">
     <h2 class="cta-title">Ready to automate?</h2>
     <p class="cta-subtitle">Let's discuss your workflows and build your AI workforce.</p>
-    <button class="btn-primary" data-cursor-grow>Book a Free Call</button>
+    <a href="mailto:aiagent.mackenzie@gmail.com" class="btn-primary" data-cursor-grow>Book a Free Call</a>
   </section>
 
   <!-- Footer -->
   <footer class="footer">
-    <p class="footer-text">© 2024 OpenClaw Services</p>
+    <p class="footer-text">Agent Mackenzie Openclaw Setup Services</p>
     <p class="footer-text">Built with precision</p>
   </footer>
 
@@ -785,27 +811,8 @@
           anticipatePin: 1
         }
       });
-      
-      // Animate cards as they enter
-      document.querySelectorAll('.process-card').forEach((card, i) => {
-        gsap.fromTo(card,
-          { y: 50, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.6,
-            delay: i * 0.1,
-            scrollTrigger: {
-              trigger: card,
-              containerAnimation: gsap.to(track, { x: -totalScroll }),
-              start: 'left 80%',
-              toggleActions: 'play none none reverse'
-            }
-          }
-        );
-      });
     }
-    
+
     // Pricing Cards Clip-Path Reveal
     document.querySelectorAll('.pricing-card').forEach((card, i) => {
       gsap.fromTo(card,
@@ -824,6 +831,36 @@
       );
     });
     
+    // Custom Cursor
+    if (!window.matchMedia('(pointer: coarse)').matches) {
+      const cursor = document.getElementById('cursor');
+      let mouseX = 0, mouseY = 0;
+      let curX = 0, curY = 0;
+
+      window.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+      });
+
+      function animateCursor() {
+        curX += (mouseX - curX) * 0.12;
+        curY += (mouseY - curY) * 0.12;
+        cursor.style.left = curX + 'px';
+        cursor.style.top = curY + 'px';
+        requestAnimationFrame(animateCursor);
+      }
+      animateCursor();
+
+      document.querySelectorAll('a, button, [data-cursor-grow]').forEach(el => {
+        el.addEventListener('mouseenter', () => {
+          gsap.to(cursor, { scale: 3.5, duration: 0.3, ease: 'power2.out' });
+        });
+        el.addEventListener('mouseleave', () => {
+          gsap.to(cursor, { scale: 1, duration: 0.3, ease: 'power2.out' });
+        });
+      });
+    }
+
     // CTA Section Animation
     gsap.fromTo('.cta-section > *',
       { y: 60, opacity: 0 },
